@@ -73,7 +73,18 @@ struct DBC {
   std::vector<Msg> msgs;
   std::vector<Val> vals;
 };
-
+#ifndef QCOM
 DBC* dbc_parse(const std::string& dbc_path);
 const DBC* dbc_lookup(const std::string& dbc_name);
 std::vector<std::string> get_dbc_names();
+#else
+std::vector<const DBC*>& get_dbcs();
+const DBC* dbc_lookup(const std::string& dbc_name);
+
+void dbc_register(const DBC* dbc);
+
+#define dbc_init(dbc) \
+static void __attribute__((constructor)) do_dbc_init_ ## dbc(void) { \
+  dbc_register(&dbc); \
+}
+#endif

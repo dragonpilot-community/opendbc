@@ -1,5 +1,7 @@
 #include <algorithm>
+#ifndef QCOM
 #include <filesystem>
+#endif
 #include <fstream>
 #include <map>
 #include <regex>
@@ -103,7 +105,7 @@ void set_signal_type(Signal& s, ChecksumState* chk, const std::string& dbc_name,
     s.type = PEDAL_COUNTER;
   }
 }
-
+#ifndef QCOM
 DBC* dbc_parse(const std::string& dbc_path) {
   std::ifstream infile(dbc_path);
   if (!infile) return nullptr;
@@ -249,3 +251,28 @@ std::vector<std::string> get_dbc_names() {
   }
   return dbcs;
 }
+#else
+std::vector<const DBC*>& get_dbcs() {
+  static std::vector<const DBC*> vec;
+  return vec;
+}
+
+const DBC* dbc_lookup(const std::string& dbc_name) {
+  for (const auto& dbci : get_dbcs()) {
+    if (dbc_name == dbci->name) {
+      return dbci;
+    }
+  }
+  return NULL;
+}
+
+void dbc_register(const DBC* dbc) {
+  get_dbcs().push_back(dbc);
+}
+
+extern "C" {
+  const DBC* dbc_lookup(const char* dbc_name) {
+    return dbc_lookup(std::string(dbc_name));
+  }
+}
+#endif
