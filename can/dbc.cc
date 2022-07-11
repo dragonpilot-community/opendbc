@@ -1,5 +1,9 @@
 #include <algorithm>
+#ifndef QCOM
 #include <filesystem>
+#else
+#include "filesystem.hpp"
+#endif
 #include <fstream>
 #include <map>
 #include <regex>
@@ -107,8 +111,11 @@ void set_signal_type(Signal& s, ChecksumState* chk, const std::string& dbc_name,
 DBC* dbc_parse(const std::string& dbc_path) {
   std::ifstream infile(dbc_path);
   if (!infile) return nullptr;
-
-  const std::string dbc_name = std::filesystem::path(dbc_path).filename();
+  #ifndef QCOM
+  const std::string dbc_name = filesystem::path(dbc_path).filename();
+  #else
+  const std::string dbc_name = filesystem::path(dbc_path).filename().c_str();
+  #endif
 
   std::unique_ptr<ChecksumState> checksum(get_checksum(dbc_name));
 
@@ -224,7 +231,7 @@ const DBC* dbc_lookup(const std::string& dbc_name) {
   static std::map<std::string, DBC*> dbcs;
 
   std::string dbc_file_path = dbc_name;
-  if (!std::filesystem::exists(dbc_file_path)) {
+  if (!filesystem::exists(dbc_file_path)) {
     dbc_file_path = get_dbc_root_path() + "/" + dbc_name + ".dbc";
   }
 
@@ -239,7 +246,8 @@ const DBC* dbc_lookup(const std::string& dbc_name) {
 std::vector<std::string> get_dbc_names() {
   static const std::string& dbc_file_path = get_dbc_root_path();
   std::vector<std::string> dbcs;
-  for (std::filesystem::directory_iterator i(dbc_file_path), end; i != end; i++) {
+  #ifndef QCOM
+  for (filesystem::directory_iterator i(dbc_file_path), end; i != end; i++) {
     if (!is_directory(i->path())) {
       std::string filename = i->path().filename();
       if (!startswith(filename, "_") && endswith(filename, ".dbc")) {
@@ -247,5 +255,14 @@ std::vector<std::string> get_dbc_names() {
       }
     }
   }
+  #else
+	filesystem::recursive_directory_iterator beg_iter(dbc_file_path), end_iter;
+	for (; beg_iter != end_iter; ++beg_iter) {
+    std::string filename = beg_iter->path().filename().c_str();
+    if (!startswith(filename, "_") && endswith(filename, ".dbc")) {
+      dbcs.push_back(filename.substr(0, filename.length() - 4));
+    }
+	}
+  #endif
   return dbcs;
 }
