@@ -12,6 +12,7 @@
 #include <vector>
 #include <mutex>
 #include <cstring>
+#include <iterator>
 
 #include "common.h"
 #include "common_dbc.h"
