@@ -214,7 +214,7 @@ DBC* dbc_parse(const std::string& dbc_path) {
   if (!infile) return nullptr;
 
   #ifndef QCOM
-  const std::string dbc_name = filesystem::path(dbc_path).filename();
+  const std::string dbc_name = std::filesystem::path(dbc_path).filename();
   #else
   const std::string dbc_name = filesystem::path(dbc_path).filename().c_str();
   #endif
@@ -237,7 +237,11 @@ const DBC* dbc_lookup(const std::string& dbc_name) {
   static std::map<std::string, DBC*> dbcs;
 
   std::string dbc_file_path = dbc_name;
+  #ifndef QCOM
+  if (!std::filesystem::exists(dbc_file_path)) {
+  #else
   if (!filesystem::exists(dbc_file_path)) {
+    #endif
     dbc_file_path = get_dbc_root_path() + "/" + dbc_name + ".dbc";
   }
 
@@ -253,7 +257,10 @@ std::vector<std::string> get_dbc_names() {
   static const std::string& dbc_file_path = get_dbc_root_path();
   std::vector<std::string> dbcs;
   #ifndef QCOM
+  for (std::filesystem::directory_iterator i(dbc_file_path), end; i != end; i++) {
+  #else
   for (filesystem::directory_iterator i(dbc_file_path), end; i != end; i++) {
+  #endif
     if (!is_directory(i->path())) {
       std::string filename = i->path().filename();
       if (!startswith(filename, "_") && endswith(filename, ".dbc")) {
