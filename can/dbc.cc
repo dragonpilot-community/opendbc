@@ -241,7 +241,7 @@ const DBC* dbc_lookup(const std::string& dbc_name) {
   if (!std::filesystem::exists(dbc_file_path)) {
   #else
   if (!filesystem::exists(dbc_file_path)) {
-    #endif
+  #endif
     dbc_file_path = get_dbc_root_path() + "/" + dbc_name + ".dbc";
   }
 
@@ -258,9 +258,6 @@ std::vector<std::string> get_dbc_names() {
   std::vector<std::string> dbcs;
   #ifndef QCOM
   for (std::filesystem::directory_iterator i(dbc_file_path), end; i != end; i++) {
-  #else
-  for (filesystem::directory_iterator i(dbc_file_path), end; i != end; i++) {
-  #endif
     if (!is_directory(i->path())) {
       std::string filename = i->path().filename();
       if (!startswith(filename, "_") && endswith(filename, ".dbc")) {
