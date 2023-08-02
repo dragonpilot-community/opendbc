@@ -5,6 +5,8 @@ import numpy as np
 
 zmq = 'zmq'
 arch = subprocess.check_output(["uname", "-m"], encoding='utf8').rstrip()
+if arch == "aarch64" and os.path.isfile('/EON'):
+  arch = "earch64"
 
 cereal_dir = Dir('.')
 
@@ -66,7 +68,7 @@ envCython["CCFLAGS"].remove("-Werror")
 python_libs = []
 if arch == "Darwin":
   envCython["LINKFLAGS"] = ["-bundle", "-undefined", "dynamic_lookup"]
-elif arch == "aarch64":
+elif arch == "earch64":
   envCython["LINKFLAGS"] = ["-shared"]
 
   python_libs.append(os.path.basename(python_path))
