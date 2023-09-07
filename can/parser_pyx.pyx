@@ -33,10 +33,6 @@ cdef class CANParser:
     if not self.dbc:
       raise RuntimeError(f"Can't find DBC: {dbc_name}")
 
-    # rick - disable checks
-    checks = []
-    enforce_checks = False
-
     self.vl = {}
     self.vl_all = {}
     self.ts_nanos = {}
