@@ -36,3 +36,35 @@ BO_ 767 SDSU: 8 XXX
 
 CM_ "BO_ SDSU: The sDSU is a modified DSU for use in TSS1 Toyotas. Learn more: https://github.com/wocsor/panda/tree/smart_dsu";
 CM_ SG_ 767 FD_BUTTON "The follow distance button signal as forwarded by the sdsu";
+
+BO_ 766 SCI: 8 XXX
+ SG_ FD_BUTTON : 7|1@0+ (1,0) [0|1] "" XXX
+
+CM_ "BO_ SCI: Steering Control Interceptor/Injector";
+CM_ SG_ 766 FD_BUTTON "Dummy";
+
+BO_ 765 SCI_COMMAND: 8 XXX
+ SG_ CHECKSUM : 63|8@0+ (1,0) [0|255] "" XXX
+ SG_ SETME_X3 : 29|2@0+ (1,0) [0|3] "" XXX
+ SG_ PERCENTAGE : 39|8@0+ (1,0) [0|255] "" XXX
+ SG_ SETME_X64 : 47|8@0+ (1,0) [0|255] "" XXX
+ SG_ ANGLE : 55|8@0- (0.5,0) [0|255] "" XXX
+ SG_ STEER_ANGLE_CMD : 15|16@0- (0.0573,0) [-540|540] "" XXX
+ SG_ STEER_REQUEST_2 : 25|1@0+ (1,0) [0|1] "" XXX
+ SG_ LKA_ACTIVE : 26|1@0+ (1,0) [0|1] "" XXX
+ SG_ CLEAR_HOLD_STEERING_ALERT : 30|1@0+ (1,0) [0|1] "" XXX
+ SG_ COUNTER : 6|6@0+ (1,0) [0|255] "" XXX
+ SG_ STEER_REQUEST : 0|1@0+ (1,0) [0|1] "" XXX
+ SG_ SETME_X1 : 7|1@0+ (1,0) [0|1] "" XXX
+
+CM_ "BO_ SCI_COMMAND: Command for SCI";
+CM_ SG_ 765 PERCENTAGE "driver override percentage (0-100), very close to steeringPressed in OP";
+CM_ SG_ 765 SETME_X64 "ramps to 0 smoothly then back on falling edge of STEER_REQUEST if BIT isn't 1";
+CM_ SG_ 765 ANGLE "angle of car relative to lane center on LTA camera";
+CM_ SG_ 765 STEER_ANGLE_CMD "desired angle, OEM steers up to 95 degrees, no angle limit but torque will bottom out";
+CM_ SG_ 765 CLEAR_HOLD_STEERING_ALERT "set to 1 when user clears LKAS_HUD->LDA_ALERT ('Hold Steering') by applying torque to steering wheel";
+CM_ SG_ 765 STEER_REQUEST "enable bit for steering, 1 to steer, 0 to not";
+CM_ SG_ 765 STEER_REQUEST_2 "enable bit for steering, 1 to steer, 0 to not";
+CM_ SG_ 765 LKA_ACTIVE "1 when using LTA for LKA";
+CM_ SG_ 765 SETME_X1 "usually 1, seen at 0 on some South American Corollas indicating lack of stock Lane Tracing Assist";
+CM_ SG_ 765 SETME_X3 "almost completely correlates with Toyota Safety Sense version, but may instead describe max torque when using LTA. if TSS 2.5 or 2022 RAV4, this is always 1. if TSS 2.0 this is always 3 (or 0 on Alphard, Highlander, NX)";
