@@ -278,6 +278,7 @@ void CANParser::UpdateValid(uint64_t nanos) {
 
   bool _valid = true;
   bool _counters_valid = true;
+  #ifndef IGNORE_DBC_CHECKS
   for (const auto& kv : message_states) {
     const auto& state = kv.second;
 
@@ -285,7 +286,6 @@ void CANParser::UpdateValid(uint64_t nanos) {
       _counters_valid = false;
     }
 
-    #ifndef IGNORE_DBC_CHECKS
     const bool missing = state.last_seen_nanos == 0;
     const bool timed_out = (nanos - state.last_seen_nanos) > state.check_threshold;
     if (state.check_threshold > 0 && (missing || timed_out)) {
@@ -298,8 +298,8 @@ void CANParser::UpdateValid(uint64_t nanos) {
       }
       _valid = false;
     }
-    #endif
   }
+  #endif
   can_invalid_cnt = _valid ? 0 : (can_invalid_cnt + 1);
   can_valid = (can_invalid_cnt < CAN_INVALID_CNT) && _counters_valid;
 }
