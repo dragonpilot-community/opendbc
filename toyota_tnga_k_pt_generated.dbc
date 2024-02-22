@@ -38,12 +38,6 @@ CM_ "BO_ SECONDARY_STEER_ANGLE: ZSS is a high-precision steering angle sensor th
 BO_ 767 SDSU: 8 XXX
  SG_ FD_BUTTON : 7|1@0+ (1,0) [0|1] "" XXX
 
-BO_ 1880 DEBUG: 8 XXX
- SG_ BLINDSPOTSIDE : 7|8@0+ (1,0) [0|255] "" XXX
- SG_ BLINDSPOT : 38|1@0+ (1,0) [0|15] "" XXX
- SG_ BLINDSPOTD1 : 47|8@0+ (1,0) [0|255] "" XXX
- SG_ BLINDSPOTD2 : 55|8@0+ (1,0) [0|255] "" XXX
-
 CM_ "BO_ SDSU: The sDSU is a modified DSU for use in TSS1 Toyotas. Learn more: https://github.com/wocsor/panda/tree/smart_dsu";
 CM_ SG_ 767 FD_BUTTON "The follow distance button signal as forwarded by the sdsu";
 
@@ -213,9 +207,6 @@ BO_ 835 ACC_CONTROL: 8 DSU
  SG_ ITS_CONNECT_LEAD : 39|8@0+ (1,0) [0|1] "" Vector__XXX
  SG_ ACCEL_CMD_ALT : 47|8@0- (0.05,0) [0|0] "m/s^2" XXX
  SG_ CHECKSUM : 63|8@0+ (1,0) [0|255] "" XXX
-
-BO_ 836 PRE_COLLISION_2: 8 DSU
- SG_ CHECKSUM : 63|8@0+ (1,0) [0|0] "" XXX
 
 BO_ 865 CLUTCH: 8 XXX
  SG_ ACC_FAULTED : 32|1@0+ (1,0) [0|1] "" XXX
@@ -563,6 +554,36 @@ VAL_ 1552 UNITS 1 "km (km/L)" 2 "km (L/100km)" 3 "miles (MPG US)" 4 "miles (MPG 
 VAL_ 1553 UNITS 1 "km" 2 "miles";
 VAL_ 1556 TURN_SIGNALS 3 "none" 2 "right" 1 "left";
 VAL_ 1592 LOCK_STATUS 0 "locked" 1 "unlocked";
+
+
+CM_ "Imported file _dp_debug_toyota.dbc starts here";
+BO_ 1880 DEBUG: 8 XXX
+ SG_ BLINDSPOTSIDE : 7|8@0+ (1,0) [0|255] "" XXX
+ SG_ BLINDSPOT : 38|1@0+ (1,0) [0|15] "" XXX
+ SG_ BLINDSPOTD1 : 47|8@0+ (1,0) [0|255] "" XXX
+ SG_ BLINDSPOTD2 : 55|8@0+ (1,0) [0|255] "" XXX
+
+BO_ 836 PRE_COLLISION_2: 8 DSU
+ SG_ DSS1GDRV : 7|10@0- (0.1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ DS1STAT2 : 13|3@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ DS1STBK2 : 10|3@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PCSWAR : 18|1@0+ (1,0) [0|0] "" FCM
+ SG_ PCSALM : 17|1@0+ (1,0) [0|0] "" FCM
+ SG_ PCSOPR : 16|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PCSABK : 31|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PBATRGR : 30|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PPTRGR : 28|1@0+ (1,0) [0|0] "" FCM
+ SG_ IBTRGR : 27|1@0+ (1,0) [0|0] "" FCM
+ SG_ CLEXTRGR : 26|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ IRLT_REQ : 25|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ BRKHLD : 37|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ AVSTRGR : 36|1@0+ (1,0) [0|0] "" SCS
+ SG_ VGRSTRGR : 35|2@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PREFILL : 33|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PBRTRGR : 32|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PCSDIS : 43|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ PBPREPMP : 40|1@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ CHECKSUM : 63|8@0+ (1,0) [0|0] "" XXX
 
 CM_ "toyota_tnga_k_pt.dbc starts here";
 
